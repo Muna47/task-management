@@ -51,3 +51,7 @@
 4. GET /task/:id (Invalid ID - e.g., /task/999)
    Status: 404 Not Found
    Response: { "error": "Task not found" }
+   
+5. GET /task/:id (Invalid format - e.g., /task/abc)
+   Status: 400 Bad Request
+   Response: { "error": "Invalid ID format" }
