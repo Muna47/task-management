@@ -2,50 +2,11 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
-const tasks = [
-    { 
-        id: 1, 
-        title: 'Learn Node.js', 
-        completed: false,
-        priority: 'high',
-        createdAt: new Date('2025-01-15')
-    },
-    { 
-        id: 2, 
-        title: 'Build REST API', 
-        completed: false,
-        priority: 'high',
-        createdAt: new Date('2025-01-20')
-    },
-    { 
-        id: 3, 
-        title: 'Study Express.js', 
-        completed: true,
-        priority: 'medium',
-        createdAt: new Date('2025-01-10')
-    },
-    { 
-        id: 4, 
-        title: 'Setup Git Repository', 
-        completed: true,
-        priority: 'low',
-        createdAt: new Date('2025-01-25')
-    },
-    { 
-        id: 5, 
-        title: 'Deploy to Production', 
-        completed: false,
-        priority: 'medium',
-        createdAt: new Date('2025-02-01')
-    }
-];
+
+const tasksRouter = require('./routes/tasks');
 
 app.get('/', (req, res) => {
     res.send('Task Management API is running!');
-});
-
-app.get('/tasks', (req, res) => {
-    res.json(tasks);
 });
 
 app.get('/health', (req, res) => {
@@ -55,16 +16,9 @@ app.get('/health', (req, res) => {
     });
 });
 
-app.get('/task/:id', (req, res) => {
-    const taskId = parseInt(req.params.id);
-    const task = tasks.find(t => t.id === taskId);
-    
-    if (!task) {
-        return res.status(404).json({ error: 'Task not found' });
-    }
-    
-    res.json(task);
-});
+
+app.use('/tasks', tasksRouter);
+app.use('/task', tasksRouter);
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
